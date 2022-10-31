@@ -10,7 +10,7 @@ I used the following resources in this process:
 
 ***Always use the default option when running any commands, unless specified to use a different option!***
 
-## Pre-Installation
+# Pre-Installation
 
 On the Arch Linux downloads page, https://archlinux.org/download/Download, download a HTTP direct download file (with the extension .iso) based on your country. 
 
@@ -18,21 +18,25 @@ I used this link from RIT: http://mirrors.rit.edu/archlinux/iso/2022.10.01/, whe
 
 After downloading your specified .iso file, use the following PowerShell command to ensure the file has a SHA256 hash. 
 
-	cd downloads
-        certutil -hashfile yourfile.iso SHA256
+```
+cd downloads
+certutil -hashfile yourfile.iso SHA256
+```
         
 For instance, these were my specific PowerShell commands:
 
-        cd downloads
-        certutil -hashfile archlinux-2022.10.01-x86_64.iso SHA256
+```
+cd downloads
+certutil -hashfile archlinux-2022.10.01-x86_64.iso SHA256
+```
         
 After running the PowerShell command, return to the Arch Linux downloads website and locate the checksums section under HTTP Direct Downloads. Compare the resulting hash from PowerShell to the checksum on the website. 
 
 If the hashes match, the integrity of the file has been verified and you are able to proceed to the installation process. If they don't match, the .iso file may be corrupted and you may need to install another .iso file to install. 
 
-## Installation
+# Installation
 
-#### Setup the virtual machine (VM) in VMware
+## Setup the virtual machine (VM) in VMware
 Open up VMware Workstation and locate "File" in the upper left hand corner. 
 
 Select "New Virtual Machine.
@@ -55,8 +59,10 @@ Locate the folder that contains your VM files. Find the file with the virtual ma
 
 Insert the following lines to lines 2 and 3 in the .vmx file and save your changes.
 
-	firmware="efi"
-	bios.bootdelay=5000 
+```
+firmware="efi"
+bios.bootdelay=5000 
+```
 		
 **The first command changes the default BIOS firmware on my VM to UEFI firware. While it is possible to just keep the BIOS firmware, I found that a majority of my resources ended up using UEFI, so I decided to change the firmware to make my installation process smoother.**
 
@@ -64,36 +70,46 @@ Insert the following lines to lines 2 and 3 in the .vmx file and save your chang
 
 You can now power on the VM! 
 	
-#### Power on the VM 
+## Power on the VM 
 After powering on the VM, locate and select the "Arch Linux install medium (x86_64, UEFI)" option.
 
-#### Verify that the VM is in UEFI mode
+## Verify that the VM is in UEFI mode
 After entering the "Arch Linux install medium (x86_64, UEFI)" option, it may take a while for the command line interface to appear. 
 
 When the root@archiso does eventually show up, you should have the ability to run commands. If no errors appear, you are good to continue with the process.
 
 The following command will ensure that the UEFI mode is being used:
 
-	ls /sys/firmware/efi/efivars	
-	
-#### Update the system clock
+```
+ls /sys/firmware/efi/efivars	
+```
+
+## Update the system clock
 The following command will check which time is currently being used:
 
-	timedatectl
+```
+timedatectl
+```
 
 The following command will show you the available time zones you can choose from (press q to exit the list):
 
-	timedatectl list-timezones
+```
+timedatectl list-timezones
+````
  
 Select a applicable time zone. I used America/Chicago: 
 
-	timedatectl set-timezone America/Chicago
+```
+timedatectl set-timezone America/Chicago
+```
   
 Run the following command to ensure that the time zone has been updated: 
 
-	timedatectl
+```
+timedatectl
+```
 
-#### Partitioning
+## Partitioning
 
 **Partitioning refers to the dividing of the hard drives** - change this
 
@@ -101,49 +117,61 @@ Run the following command to ensure that the time zone has been updated:
 
 The following command will display the available hard drives:
 
-	fdisk -l
+```
+fdisk -l
+```
   
 The following commands will create a EFI system partition: 
 
-        fdisk /dev/sda
-        Command (m for help): n
-        Partition type: p
-        Partition number: 1
-        First sector: default option (2048)
-        Last sector: +500M
-        Command (m for help): t
-        Hex code or alias (type L to list all): EF
+```
+fdisk /dev/sda
+Command (m for help): n
+Partition type: p
+Partition number: 1
+First sector: default option (2048)
+Last sector: +500M
+Command (m for help): t
+Hex code or alias (type L to list all): EF
+```
  
 The following commands will create a root partition:
 
-	Command (m for help): n
-        Partition type: p
-        Partition number: 2
-        First sector: default option
-        Last sector: default option
+```
+Command (m for help): n
+Partition type: p
+Partition number: 2
+First sector: default option
+Last sector: default option
+```
 
 The following command will save your newly created partitions and exit the partitioning platform:
 
-	Command (m for help): w
+```
+Command (m for help): w
+```
 
-#### Format partitions
+## Format partitions
 
 After the partitions have been created, each partition must be formatted with the appropriate file system. 
 
 The following commands will format the partitions:
  	
-	mkfs.fat -F32 /dev/sda1
-   	mkfs.ext4 /dev/sda2
+```
+mkfs.fat -F32 /dev/sda1
+mkfs.ext4 /dev/sda2
+```
   
-#### Mount the file system
+## Mount the file system
 
 Mounting allows the .iso file to access its contents as if it was on a physical medium and then inserted into the optical drive. 
 
 The following command will mount the .iso file:
 
-	mount /dev/sda2 /mnt
+```
+mount /dev/sda2 /mnt
+```
 	
-#### Install essential packages
+## Install essential packages
 
 The Arch Linux Installation guide states that the base, linux, and linux-firmware packages must be installed, as they are curcial for the proper running of the system.
 
@@ -151,9 +179,11 @@ I ended up also installing the man, sudo, vim, and zsh packages to use in the la
 
 The following command will install the base, linux, linux-firmware, man, sudo, vim, and zsh packages:
 
-	pacstrap /mnt base linux linux-firmware man sudo vim zsh base-devel
+```
+pacstrap /mnt base linux linux-firmware man sudo vim zsh base-devel
+```
 	
-#### Configure the system 
+## Configure the system 
 
 **Create a fstab file**
 
@@ -161,11 +191,15 @@ A fstab file is used to define how disk partitions, block devices, or remote fil
 
 The following command will create the fstab file:
 
-	genfstab -U /mnt >> /mnt/etc/fstab
+```
+genfstab -U /mnt >> /mnt/etc/fstab
+```
     
 The following command will check if the fstab file has been created correctly:
 
- 	 cat /mnt/etc/ftsab
+```
+cat /mnt/etc/ftsab
+```
 	 
 **Change root (chroot)**
 
@@ -173,97 +207,120 @@ Chroot changes the root directory for the current running process and their chil
 
 The following command will change root into the new system:
 
-	arch-chroot /mnt
+```
+arch-chroot /mnt
+```
   
 **Time zone**
 
 The following command will set and change the time zone. I used America/Chicago as my time zone:
 
-	ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
-	hwclock --systohc
+```
+ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
+hwclock --systohc
+```
   
 **Localization**
 
 Localization sets your system's language, numbering, date, and currency formats. 
 
-The following command will allow you to edit the /etc/locale.gen file and uncomment your specific localization. Mine is the en_US.UTF-8 UTF-8 localization.
+The following commands will allow you to edit the /etc/locale.gen file and uncomment your specific localization. Mine is the en_US.UTF-8 UTF-8 localization.
 
-	vim /etc/locale.gen
-	Press "Insert" and remove the # in front of en_US.UTF-8 UTF-8
-	Press "ESC" and enter :wq to save the file and exit vim
+```
+vim /etc/locale.gen
+Press "Insert" and remove the # in front of en_US.UTF-8 UTF-8
+Press "ESC" and enter :wq to save the file and exit vim
+```
 
 The following command will create the /etc/locale.conf file and set the LANG variable:
 
-	echo 'LANG=en_US.UTF-8' >> /etc/locale.conf
+```
+echo 'LANG=en_US.UTF-8' >> /etc/locale.conf
+```
 	
 The following command will check that the locale.conf file was created correctly:
 
-	cat /etc/locale.conf
+```
+cat /etc/locale.conf
+```
 
-#### Network Configuration
+## Network Configuration
 
 **"myarch" was my chosen name for my network host**
 
 Begin by writing the selected host name to the /etc/hostname file:
 
-	echo myarch > /etc/hostname
+```
+echo myarch > /etc/hostname
+```
   
 Verify that the previous command worked: 
 
-	cat /etc/hostname
+```
+cat /etc/hostname
+```
   
 You will then need to edit the /etc/hosts file
  
 Use the following command to open the /etc/hosts file in vim: 
  
-	vim /etc/hosts
+```
+vim /etc/hosts
+```
 
 After entering vim, do the following: 
 
 To begin typing, press "insert" and add these three lines to the file: 
 
-	  127.0.0.1		localhost
-	  ::1			localhost
-	  127.0.1.1		myarch
+```
+127.0.0.1		localhost
+::1			localhost
+127.0.1.1		myarch
+```
         
 Press "ESC" and type :wq to save the changes to the /etc/hosts file and to exit vim. 
 
-#### Setup network manager
+## Setup network manager
 
 The following commands will install a network manager:
 
-	pacman -Syu
-	pacman -S wpa_supplicant wireless_tools networkmanager
+```
+pacman -Syu
+pacman -S wpa_supplicant wireless_tools networkmanager
+```
 
-#### Change the root password
+## Change the root password
 
 The following command will guide you through changing your root password:
 
-	passwd
+```
+passwd
+```
+## Installing a desktop environment (DE)
 
-#### Installing a desktop environment (DE)
-
-**The website that I used for installing a DE provided steps for installing the Gnome DE.**
+_**The website that I used for installing a DE provided steps for installing the Gnome DE.**_
 
 The following commands will install the Gnome DE: 
 
-	pacman -S xorg
-	pacman -S gnome
-  
-#### Enable display manager and network manager
-
+```
+pacman -S xorg
+pacman -S gnome
+```
+## Enable display manager and network manager
 The following commands will enable both the display manager and the network manager:
 
-	systemctl enable gdm.service
-	systemctl enable NetworkManager.service
-	systemctl enable wpa_supplicant.service	
-        
-#### Finish
-
+```
+systemctl enable gdm.service
+systemctl enable NetworkManager.service
+systemctl enable wpa_supplicant.service	
+```   
+## Finish
 Exit out of chroot and shutdown the VM: 
-        
-    exit 
-    shutdown
+    
+```
+exit 
+shutdown
+```
 
 When the VM shutdowns, turn it back on and select the option to enter the GUI. 
 
