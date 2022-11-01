@@ -2,8 +2,8 @@
 
 This page outlines my process of installing Arch Linux on VMware Workstation. 
 
-I used the following resources in this process:
-1. Arch Linux wiki: https://wiki.archlinux.org/title/Installation_guide
+I used the following websites in this process:
+1. For general guidance: https://wiki.archlinux.org/title/Installation_guide
 2. Checking file hash: https://portal.nutanix.com/page/documents/kbs/details?targetId=kA07V000000LWYqSAO
 3. Creating and formating partitioning: https://itsfoss.com/install-arch-linux/
 4. Network manager: https://linuxhint.com/arch_linux_network_manager/
@@ -12,11 +12,11 @@ I used the following resources in this process:
 
 # Pre-Installation
 
-On the Arch Linux downloads page, https://archlinux.org/download/Download, download a HTTP direct download file (with the extension .iso) based on your country. 
+On the Arch Linux downloads page, https://archlinux.org/download/Download, download a HTTP direct download file (with a .iso extension) based on your country. 
 
 I used this link from RIT: http://mirrors.rit.edu/archlinux/iso/2022.10.01/, where the file was named archlinux-2022.10.01-x86_64.iso.
 
-After downloading your specified .iso file, use the following PowerShell command to ensure the file has a SHA256 hash. 
+After downloading your specified .iso file, use the following PowerShell commands to ensure the file has a SHA256 hash. 
 
 ```
 cd downloads
@@ -30,7 +30,7 @@ cd downloads
 certutil -hashfile archlinux-2022.10.01-x86_64.iso SHA256
 ```
         
-After running the PowerShell command, return to the Arch Linux downloads website and locate the checksums section under HTTP Direct Downloads. Compare the resulting hash from PowerShell to the checksum on the website. 
+After running the PowerShell commands, return to the Arch Linux downloads page and locate the checksums section under HTTP Direct Downloads. Compare the resulting hash from PowerShell to the checksum on the website. 
 
 If the hashes match, the integrity of the file has been verified and you are able to proceed to the installation process. If they don't match, the .iso file may be corrupted and you may need to install another .iso file to install. 
 
@@ -97,12 +97,18 @@ The following command will show you the available time zones you can choose from
 timedatectl list-timezones
 ````
  
-Select a applicable time zone. I used America/Chicago: 
+The following command will select a applicable time zone. I particularly used America/Chicago: 
+
+```
+timedatectl set-timezone yourtimezone
+```
+  
+For instance, I ran the following command to select the America/Chicago timezone:
 
 ```
 timedatectl set-timezone America/Chicago
 ```
-  
+
 Run the following command to ensure that the time zone has been updated: 
 
 ```
@@ -144,7 +150,7 @@ First sector: default option
 Last sector: default option
 ```
 
-The following command will save your newly created partitions and exit the partitioning platform:
+The following command will save the newly created partitions and exit the partitioning platform:
 
 ```
 Command (m for help): w
@@ -180,7 +186,7 @@ I ended up also installing the man, sudo, vim, and zsh packages to use in the la
 The following command will install the base, linux, linux-firmware, man, sudo, vim, and zsh packages:
 
 ```
-pacstrap /mnt base linux linux-firmware man sudo vim zsh base-devel
+pacstrap /mnt base linux linux-firmware man sudo vim zsh
 ```
 	
 ## Configure the system 
@@ -228,7 +234,8 @@ The following commands will allow you to edit the /etc/locale.gen file and uncom
 
 ```
 vim /etc/locale.gen
-Press "Insert" and remove the # in front of en_US.UTF-8 UTF-8
+Press "Insert"
+Remove the # in front of en_US.UTF-8 UTF-8
 Press "ESC" and enter :wq to save the file and exit vim
 ```
 
@@ -243,6 +250,7 @@ The following command will check that the locale.conf file was created correctly
 ```
 cat /etc/locale.conf
 ```
+**Note:** If you uncomment the wrong localization, you may run into issues opening your terminal when you get the GUI stage of Arch. I accidentally uncommented the localization right above en_US.UTF-8 UTF-8 and I kept having trouble opening my terminal the first few times I used the GUI. I ended up having to edit /etc/locale.gen again, but the terminal functioned correctly again!
 
 ## Network Configuration
 
@@ -281,6 +289,8 @@ To begin typing, press "insert" and add these three lines to the file:
 Press "ESC" and type :wq to save the changes to the /etc/hosts file and to exit vim. 
 
 ## Setup network manager
+
+**Disclaimer:** Do not use the apt command to install any package or manager in Arch! pacman is the correct command for installation related commands in this distribution. I accidentally used apt in my first attempt to install the network manager and it would not install. I then realized it was the command used for Ubuntu, Debian, and other related distributions, not Arch.
 
 The following commands will install a network manager:
 
