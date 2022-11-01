@@ -55,7 +55,7 @@ Select "Customize Hardware..." and set the memory to 2 GB.
 
 Hit finish, but do not power on the VM yet! You will need to alter a portion of one of the VM's file to ensure that the correct firmware is being used on the VM.
 
-Locate the folder that contains your VM files. Find the file with the virtual machine configuration (.vmx) extension. You may need to use a different platform to edit the file. I chose to use Notepad++. 
+Locate the folder that contains your VM files. Find the file with the virtual machine configuration (.vmx) extension. You may need to use a different platform to edit the file instead of the default notetaking app on your computer. I chose to use Notepad++. 
 
 Insert the following lines to lines 2 and 3 in the .vmx file and save your changes.
 
@@ -64,9 +64,9 @@ firmware="efi"
 bios.bootdelay=5000 
 ```
 		
-**The first command changes the default BIOS firmware on my VM to UEFI firware. While it is possible to just keep the BIOS firmware, I found that a majority of my resources ended up using UEFI, so I decided to change the firmware to make my installation process smoother.**
-
-**The second command extended my time to choose the correct mode when booting up the, since I would miss it the first few tmes I attempted to select it.** 
+**Notes:** 
+1. The first command changes the default BIOS firmware on my VM to UEFI firware. While it is possible to just keep the BIOS firmware, I found that a majority of my resources ended up using UEFI, so I decided to change the firmware to make my installation process smoother.
+2. The second command extended my time to choose the correct mode when booting up the VM, since I kept missing it the first few tmes I tried to select it. 
 
 You can now power on the VM! 
 	
@@ -83,7 +83,6 @@ The following command will ensure that the UEFI mode is being used:
 ```
 ls /sys/firmware/efi/efivars	
 ```
-
 ## Update the system clock
 The following command will check which time is currently being used:
 
@@ -97,7 +96,7 @@ The following command will show you the available time zones you can choose from
 timedatectl list-timezones
 ````
  
-The following command will select a applicable time zone. I particularly used America/Chicago: 
+The following command will select a applicable time zone:
 
 ```
 timedatectl set-timezone yourtimezone
@@ -179,9 +178,11 @@ mount /dev/sda2 /mnt
 	
 ## Install essential packages
 
-The Arch Linux Installation guide states that the base, linux, and linux-firmware packages must be installed, as they are curcial for the proper running of the system.
+The Arch Linux Installation guide states that the base, linux, and linux-firmware packages must be installed, as they are crucial for the proper running of the system.
 
 I ended up also installing the man, sudo, vim, and zsh packages to use in the later parts of the installation process. 
+
+**Note:** I chose to install vim over nano, since I wanted to gain familarity with editing in vim. However, if you have not edited with nano before, I would recommend using nano over using vim, since vim is slightly more complicated to use as a editor. 
 
 The following command will install the base, linux, linux-firmware, man, sudo, vim, and zsh packages:
 
@@ -250,7 +251,7 @@ The following command will check that the locale.conf file was created correctly
 ```
 cat /etc/locale.conf
 ```
-**Note:** If you uncomment the wrong localization, you may run into issues opening your terminal when you get the GUI stage of Arch. I accidentally uncommented the localization right above en_US.UTF-8 UTF-8 and I kept having trouble opening my terminal the first few times I used the GUI. I ended up having to edit /etc/locale.gen again, but the terminal functioned correctly again!
+**Note:** If you uncomment the wrong localization, you may run into issues opening your terminal when you get using your GUI. I accidentally uncommented the localization right above en_US.UTF-8 UTF-8 and I kept having trouble opening my terminal the first few times I used the GUI. I ended up having to edit /etc/locale.gen again and the terminal functioned correctly again!
 
 ## Network Configuration
 
@@ -301,14 +302,14 @@ pacman -S wpa_supplicant wireless_tools networkmanager
 
 ## Change the root password
 
-The following command will guide you through changing your root password:
+The following command will guide you through changing your root password. You will need the root account and password to log into the GUI for the first time.
 
 ```
 passwd
 ```
 ## Installing a desktop environment (DE)
 
-_**The website that I used for installing a DE provided steps for installing the Gnome DE.**_
+**Note:** The website that I used for installing a DE provided steps for installing the Gnome DE.
 
 The following commands will install the Gnome DE: 
 
@@ -334,6 +335,51 @@ shutdown
 
 When the VM shutdowns, turn it back on and select the option to enter the GUI. 
 
-There should be a option to boot into the GUI with a start-up menu to similar that of the beginning of the installation progress. 
+Power on the VM again and select the "Arch Linux" option when the start-up menu appears. You now have your Arch Linux running as a GUI! 
 
-**Overall thoughts:** While a generally a challenging task, installing Arch Linux allowed me to greatly improve my understanding of the command line interface. In addition, this installation improved my ability to search for external resources. 
+# Further modifications
+
+## Adding additional accounts
+
+## Adding aliases
+ 
+## Installing a different shell
+
+## Installing ssh and enter the class gateway
+
+## Color-coding the terminal
+
+# Other requirements relating to the video
+
+## Show VM's IP address
+
+Enter ctrl + alt + t to open up the terminal
+
+The following command will show the VM's ip address:
+```
+ip addr
+```
+
+## Showing all users
+The following command will display all the users and their additional info:
+
+
+The following command displays only the users:
+```
+compgen -u
+```
+
+## Showing sudoers
+
+**Note:** There is no group named sudo! The group containing the sudo users is called wheel.
+
+The following command displays the sudo users:
+```
+getent group wheel
+```
+
+## Installing a Arch User Repository (AUR) package
+
+# Overall thoughts
+1. While installing Arch was a challenging task, I felt that it allowed me to greatly improve not only of understanding of the Linux command line interface, but also my understanding of how and what is required to create and maintain a Linux distribution.  
+2. In addition, I felt that my ability to troubleshoot for Linux related tasks improved. While I have had to use external resources for other related courses, I haven't use them much for anything related to Linux.
