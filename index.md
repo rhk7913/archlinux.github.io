@@ -361,8 +361,10 @@ ip addr
 ```
 
 ## Showing all users
-The following command will display all the users and their additional info:
-
+The following command will display all the users and their additional info using the /etc/passwd file:
+```
+cat /etc/passwd
+```
 
 The following command displays only the users:
 ```
@@ -371,7 +373,20 @@ compgen -u
 
 ## Showing sudoers
 
-**Note:** There is no group named sudo! The group containing the sudo users is called wheel.
+Reference: https://linuxopsys.com/topics/add-user-to-sudoers-in-arch-linux
+
+**Note:** There is no group named sudo in Arch! The group containing the sudo users is called wheel.
+
+The following command adds a user to the wheel group:
+```
+usermod -aG wheel username
+```
+
+For instance, I ran the following commands to make the users codi and rhea sudo users
+```
+usermod -aG wheel codi
+usermod -aG wheel rhea
+```
 
 The following command displays the sudo users:
 ```
