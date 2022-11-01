@@ -326,6 +326,4 @@ When the VM shutdowns, turn it back on and select the option to enter the GUI.
 
 There should be a option to boot into the GUI with a start-up menu to similar that of the beginning of the installation progress. 
 
-####
-
 **Overall thoughts:** While a generally a challenging task, installing Arch Linux allowed me to greatly improve my understanding of the command line interface. In addition, this installation improved my ability to search for external resources. 
