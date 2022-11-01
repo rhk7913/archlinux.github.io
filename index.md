@@ -2,13 +2,11 @@
 
 This page outlines my process of installing Arch Linux on VMware Workstation. 
 
-I used the following websites in this process:
+I used the following websites for reference in this process:
 1. For general guidance: https://wiki.archlinux.org/title/Installation_guide
 2. Checking file hash: https://portal.nutanix.com/page/documents/kbs/details?targetId=kA07V000000LWYqSAO
 3. Creating and formating partitioning: https://itsfoss.com/install-arch-linux/
 4. Network manager: https://linuxhint.com/arch_linux_network_manager/
-
-***Always use the default option when running any commands, unless specified to use a different option!***
 
 # Pre-Installation
 
@@ -35,6 +33,8 @@ After running the PowerShell commands, return to the Arch Linux downloads page a
 If the hashes match, the integrity of the file has been verified and you are able to proceed to the installation process. If they don't match, the .iso file may be corrupted and you may need to install another .iso file to install. 
 
 # Installation
+
+***Always use the default option when running any commands, unless specified to use a different option!***
 
 ## Setup the virtual machine (VM) in VMware
 Open up VMware Workstation and locate "File" in the upper left hand corner. 
