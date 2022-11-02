@@ -6,7 +6,7 @@ I used the following websites for reference in this process:
 1. For general guidance: https://wiki.archlinux.org/title/Installation_guide
 2. Checking file hash: https://portal.nutanix.com/page/documents/kbs/details?targetId=kA07V000000LWYqSAO
 3. Creating and formating partitioning: https://itsfoss.com/install-arch-linux/
-4. Network manager: https://linuxhint.com/arch_linux_network_manager/
+4. Package and network manager: https://linuxhint.com/arch_linux_network_manager/
 
 # Pre-Installation
 
@@ -339,21 +339,98 @@ Power on the VM again and select the "Arch Linux" option when the start-up menu 
 
 # Further modifications
 
+**Note:** I ran most of my commands with a sudo user, so I omitted the sudo parts of the commands. If you are running these commands with a non-sudo user, you will need to add sudo to the beginning of your commands.
+
 ## Adding additional accounts
+The following command will add a user to the system:
+```
+useradd name
+```
+
+For instance, I ran the following commands to add the users codi and rhea:
+```
+useradd codi
+useradd rhea
+```
 
 ## Adding aliases
+
+Aliases are customizable shortcuts that allow you to access your commonly used commands without having to always use the full form of the command. 
+
+The following command will show a list of your current aliases:
+```
+alias
+```
+There are two types of aliases: temporary and permanent. 
+
+**Note:** Temporary aliases are only active in your current shell. If you exit out of your current shell, these aliases will no longer exist. On the other hand, permanent aliases will remain on the shell. 
+
+The following syntax will create a temporary alias:
+```
+alias name='commandname'
+```
+
+For instance, creating an alias for the ls -la command would look like:
+```
+alias ll='ls -la'
+```
+
+To create a permanent alias, you will need to enter the ~/.bashrc file and append your alias to the file, using the above syntax:
+```
+vim ~/.bashrc
+alias name='commandname'
+Save and close the file
+```
+
+The following command will activate your permanent alias:
+```
+source ~/.bash_aliases
+```
  
 ## Installing a different shell
 
+**Note:** You should have the zsh shell already installed from the installation process, however it is a good idea to still check and see if the shell was properly installed.
+
+The following command will install the zsh shell:
+```
+pacman -S zsh
+```
+
 ## Installing ssh and enter the class gateway
 
+In order to enter the class gateway, you will need to install the ssh package.
+
+The following command will install the ssh package:
+```
+pacman -S ssh
+```
+
+The following command will connect you to the class gateway:
+```
+ssh -p yourportnumber yourusername@server-address
+```
+
+For instance, I ran the following command to enter the class gateway:
+```
+ssh -p 22 sysadmin@10.10.1.118
+```
+
 ## Color-coding the terminal
+Reference: https://averagelinuxuser.com/linux-terminal-color/
+
+There are two ways to color-code bash: either on a user specific basis or on a system-wide level. It is recommended to only edit on a user specific basis.
+
+The following process will enable color-coding on a user specific basis:
+```
+Backup the setting file: cp .bashrc .bashrc.backup
+Edit your bash.bashrc file with your wanted color scheme
+Move the bash.bashrc file to your home directory: mv .bashrc ~/.bashrc
+Restart the terminal and the color scheme should appear
+```
 
 # Other requirements relating to the video
 
 ## Show VM's IP address
-
-Enter ctrl + alt + t to open up the terminal
 
 The following command will show the VM's ip address:
 ```
@@ -361,14 +438,13 @@ ip addr
 ```
 
 ## Showing all users
-The following command will display all the users and their additional info using the /etc/passwd file:
-```
-cat /etc/passwd
-```
-
 The following command displays only the users:
 ```
 compgen -u
+```
+However, the following command will display all the users and their additional info via the /etc/passwd file:
+```
+cat /etc/passwd
 ```
 
 ## Showing sudoers
@@ -382,7 +458,7 @@ The following command adds a user to the wheel group:
 usermod -aG wheel username
 ```
 
-For instance, I ran the following commands to make the users codi and rhea sudo users
+For instance, I ran the following commands to add the users codi and rhea to the wheel group:
 ```
 usermod -aG wheel codi
 usermod -aG wheel rhea
@@ -394,6 +470,17 @@ getent group wheel
 ```
 
 ## Installing a Arch User Repository (AUR) package
+
+The following command will syncronize all your packages:
+```
+pacman -Syu
+```
+
+The following command will install the base-devel package, a required tool in compling software from the AUR:
+```
+pacman -S git base-devel
+```
+
 
 # Overall thoughts
 1. While installing Arch was a challenging task, I felt that it allowed me to greatly improve not only of understanding of the Linux command line interface, but also my understanding of how and what is required to create and maintain a Linux distribution.  
