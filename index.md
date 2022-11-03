@@ -2,7 +2,7 @@
 
 # Pre-Installation
 
-Hashing reference: [https://portal.nutanix.com/page/document/kbs/details?targetId=kA07V000000LWYqSAO](url)
+**Hashing reference: [https://portal.nutanix.com/page/document/kbs/details?targetId=kA07V000000LWYqSAO](url)**
 
 On the Arch Linux downloads page, [https://archlinux.org/download](url), download a HTTP direct download file (with a .iso extension) based on your country. 
 
@@ -112,7 +112,7 @@ timedatectl
 
 ## Partitioning
 
-Reference: [https://itsfoss.com/install-arch-linux/](url)
+**_Reference: [https://itsfoss.com/install-arch-linux/](url)_**
 
 Partitioning is the process of dividing the hard drive into multiple selections to be used for different purposes. 
 
@@ -264,7 +264,7 @@ I ended up having to edit /etc/locale.gen again so that the terminal functioned 
 
 ## Network Configuration
 
-Reference: [https://linuxhint.com/arch_linux_network_manager/](url)
+_**Reference: [https://linuxhint.com/arch_linux_network_manager/](url)**_
 
 **Note:** "myarch" was my chosen name for my network host
 
@@ -333,7 +333,7 @@ pacman -S gnome
 
 ## Enable display manager and network manager
 
-Reference: [https://linuxhint.com/arch_linux_network_manager/](url)
+_**Reference: [https://linuxhint.com/arch_linux_network_manager/](url)**_
 
 The following commands will enable both the display manager and the network manager:
 ```
@@ -369,9 +369,11 @@ useradd codi
 useradd rhea
 ```
 
+![Add Users](https://user-images.githubusercontent.com/114512130/199830679-88575bb0-8485-4df3-a3c9-c9f96940cb13.png)
+
 ## Adding aliases
 
-Reference: [https://www.tecmint.com/create-alias-in-linux/](url)
+_**Reference: [https://www.tecmint.com/create-alias-in-linux/](url)**_
 
 Aliases are customizable shortcuts that allow you to access your commonly used commands without having to always use the full form of the command. 
 
@@ -416,6 +418,7 @@ The following command will install the zsh shell:
 ```
 pacman -S zsh
 ```
+![zsh](https://user-images.githubusercontent.com/114512130/199830871-71b92f70-abd4-4752-b494-c90f101962d5.png)
 
 ## Installing ssh and enter the class gateway
 
@@ -425,6 +428,7 @@ The following command will install the ssh package:
 ```
 pacman -S openssh
 ```
+![Screenshot (887)](https://user-images.githubusercontent.com/114512130/199831029-08d37a46-1f51-4fa6-928d-340753972c35.png)
 
 The following command will connect you to the class gateway:
 ```
@@ -436,12 +440,13 @@ For instance, I ran the following command to enter the class gateway:
 ```
 ssh -p 22 sysadmin@10.10.1.118
 ```
+![Screenshot (888)](https://user-images.githubusercontent.com/114512130/199831141-2dfee994-1c93-40e3-b560-f782c1119e6a.png)
 
 ## Color-coding the terminal
 
-Reference: [https://averagelinuxuser.com/linux-terminal-color/](url)
+_**Reference: [https://averagelinuxuser.com/linux-terminal-color/](url)**_
 
-There are two ways to color-code bash: either on a user specific basis or on a system-wide level. It is recommended to only edit on a user specific basis.
+There are two ways to color-code bash: either on a user specific basis or on a system-wide level. It is recommended to only edit on a user specific basis on the .bashrc file.
 
 The following process will enable color-coding on a user specific basis:
 ```
@@ -459,10 +464,11 @@ The following command will show the VM's ip address:
 ```
 ip addr
 ```
+![Screenshot (890)](https://user-images.githubusercontent.com/114512130/199831249-bdce923b-9d4d-4039-b4ec-8f73a1dbc6d8.png)
 
 ## Showing all users
 
-Reference: [https://linuxhint.com/list_all_users_linux_system/](url)
+_**Reference: [https://linuxhint.com/list_all_users_linux_system/](url)**_
 
 The following command displays only the users:
 ```
@@ -472,10 +478,13 @@ However, the following command will display all the users and their additional i
 ```
 cat /etc/passwd
 ```
+![Screenshot (891)](https://user-images.githubusercontent.com/114512130/199831318-f4a5dba8-2e76-4ac7-b295-3d204e61203d.png)
+
+![Screenshot (892)](https://user-images.githubusercontent.com/114512130/199831466-2e000477-f660-47b4-a19a-83f9d6a1dad0.png)
 
 ## Showing sudoers
 
-Reference: [https://linuxopsys.com/topics/add-user-to-sudoers-in-arch-linux](url)
+_**Reference: [https://linuxopsys.com/topics/add-user-to-sudoers-in-arch-linux](url)**_
 
 **Note:** There is no group named sudo in Arch! The group containing the sudo users is called wheel.
 
@@ -495,16 +504,18 @@ The following command displays the sudo users:
 getent group wheel
 ```
 
+![Screenshot (893)](https://user-images.githubusercontent.com/114512130/199831600-584d6e57-7fe8-4d63-841e-2bc0743ac48c.png)
+
 ## Installing a Arch User Repository (AUR) package
 
-Reference: [https://linuxhint.com/aur_arch_linux/](url)
+_**Reference: [https://linuxhint.com/aur_arch_linux/](url)**_
 
 The following command will syncronize all your packages:
 ```
 pacman -Syu
 ```
 
-The following command will install the base-devel package, a required tool in compling software from the AUR:
+The following command will install the git and base-devel packages, required tools in installing AUR packages:
 ```
 pacman -S git base-devel
 ```
@@ -514,19 +525,49 @@ The following command will install your selected AUR package:
 git clone https://aur.archlinux.org/<pkgName>.git
 ```
 
+For instance, I chose to install the Google Chrome AUR package, so I ran the following command:
+```
+git clone https://aur.archlinux.org/google-chrome.git
+```
+
 The following command will change into the AUR package's directory:
 ```
 cd packagename
 ```
-**Note:** You will be unable to run makepkg as a root user, so you will need to run the following step as a non-root user to continue the installation process.
 
-The following command will finish the installation 
-process of installing the AUR package:
+I ran the following to change into the Google Chrome's directory:
+```
+cd google-chrome/
+```
+
+**Note:** You will need to check the contents of the package to ensure that the package is safe to install. 
+
+The following command will view the content of the package:
+```
+less PKGBUILD
+```
+
+If the website field of PKGBUILD does match with the AUR package's associated and offical website, you can proceed with the final steps of the installation process. 
+
+**Note:** You will be unable to run makepkg as a root user, so you will need to run the following step as a non-root user to continue the installation process. I switched to the rhea user to complete the installation of Google Chrome.
+
+The following commands will finish the installation process of the AUR package:
 ```
 makepkg
-sudo pacman -U packagename.tar.xz
+sudo pacman -U package_name-version-architecture.pkg.tar.zst
+git pull
 ```
+
+For instance, I ran the following commands as the rhea user:
+```
+makepkg
+sudo pacman -U google-chrome 107.0.5304.87-1.x86-64.pkg.tar.zst
+git pull
+```
+
 Your AUR package should be installed!
+
+![Google Chrome](https://user-images.githubusercontent.com/114512130/199831792-bd42e39d-5160-4d61-8c7d-cb3984ef1b99.png)
 
 # Overall thoughts
 1. While installing Arch was a challenging task, I felt that it allowed me to greatly improve not only of understanding of the Linux command line interface, but also my understanding of how and what is required to create and maintain a Linux distribution.  
