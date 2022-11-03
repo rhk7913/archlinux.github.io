@@ -112,7 +112,7 @@ timedatectl
 
 ## Partitioning
 
-**_Reference: [https://itsfoss.com/install-arch-linux/](url)_**
+**Reference: [https://itsfoss.com/install-arch-linux/](url)**
 
 Partitioning is the process of dividing the hard drive into multiple selections to be used for different purposes. 
 
@@ -264,7 +264,7 @@ I ended up having to edit /etc/locale.gen again so that the terminal functioned 
 
 ## Network Configuration
 
-_**Reference: [https://linuxhint.com/arch_linux_network_manager/](url)**_
+**Reference: [https://linuxhint.com/arch_linux_network_manager/](url)**
 
 **Note:** "myarch" was my chosen name for my network host
 
@@ -323,7 +323,9 @@ passwd
 
 ## Installing a desktop environment (DE)
 
-**Note:** I ended up using the Gnone DE, since a majority of my references decided to install that particular DE. 
+**Reference: [https://itsfoss.com/install-arch-linux/](url)**
+
+**Note:** I ended up using the Gnone DE, since my reference decided to install that particular DE. 
 
 The following commands will install the Gnome DE: 
 ```
@@ -333,7 +335,7 @@ pacman -S gnome
 
 ## Enable display manager and network manager
 
-_**Reference: [https://linuxhint.com/arch_linux_network_manager/](url)**_
+**Reference: [https://linuxhint.com/arch_linux_network_manager/](url)**
 
 The following commands will enable both the display manager and the network manager:
 ```
@@ -373,7 +375,7 @@ useradd rhea
 
 ## Adding aliases
 
-_**Reference: [https://www.tecmint.com/create-alias-in-linux/](url)**_
+**Reference: [https://www.tecmint.com/create-alias-in-linux/](url)**
 
 Aliases are customizable shortcuts that allow you to access your commonly used commands without having to always use the full form of the command. 
 
@@ -444,7 +446,7 @@ ssh -p 22 sysadmin@10.10.1.118
 
 ## Color-coding the terminal
 
-_**Reference: [https://averagelinuxuser.com/linux-terminal-color/](url)**_
+**Reference: [https://averagelinuxuser.com/linux-terminal-color/](url)**
 
 There are two ways to color-code bash: either on a user specific basis or on a system-wide level. It is recommended to only edit on a user specific basis on the .bashrc file.
 
@@ -468,7 +470,7 @@ ip addr
 
 ## Showing all users
 
-_**Reference: [https://linuxhint.com/list_all_users_linux_system/](url)**_
+**Reference: [https://linuxhint.com/list_all_users_linux_system/](url)**
 
 The following command displays only the users:
 ```
@@ -484,7 +486,7 @@ cat /etc/passwd
 
 ## Showing sudoers
 
-_**Reference: [https://linuxopsys.com/topics/add-user-to-sudoers-in-arch-linux](url)**_
+**Reference: [https://linuxopsys.com/topics/add-user-to-sudoers-in-arch-linux](url)**
 
 **Note:** There is no group named sudo in Arch! The group containing the sudo users is called wheel.
 
@@ -508,7 +510,7 @@ getent group wheel
 
 ## Installing a Arch User Repository (AUR) package
 
-_**Reference: [https://linuxhint.com/aur_arch_linux/](url)**_
+**Reference: [https://linuxhint.com/aur_arch_linux/](url)**
 
 The following command will syncronize all your packages:
 ```
@@ -547,7 +549,7 @@ The following command will view the content of the package:
 less PKGBUILD
 ```
 
-If the website field of PKGBUILD does match with the AUR package's associated and offical website, you can proceed with the final steps of the installation process. 
+If the website field of PKGBUILD does match with the AUR package's offical website, you can proceed with the final steps of the installation process. 
 
 **Note:** You will be unable to run makepkg as a root user, so you will need to run the following step as a non-root user to continue the installation process. I switched to the rhea user to complete the installation of Google Chrome.
 
