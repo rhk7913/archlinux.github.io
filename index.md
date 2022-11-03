@@ -572,5 +572,4 @@ Your AUR package should be installed!
 ![Google Chrome](https://user-images.githubusercontent.com/114512130/199831792-bd42e39d-5160-4d61-8c7d-cb3984ef1b99.png)
 
 # Overall thoughts
-1. While installing Arch was a challenging task, I felt that it allowed me to greatly improve not only of understanding of the Linux command line interface, but also my understanding of how and what is required to create and maintain a Linux distribution.  
-2. In addition, I felt that my ability to troubleshoot for Linux related tasks improved. While I have had to use external resources for other related courses, I haven't use them much for anything related to Linux.
+While installing Arch was a challenging task, I felt that it allowed me to greatly improve not only of understanding of the Linux command line interface, but also my understanding of how and what is required to create and maintain a Linux distribution. In addition, I felt that my ability to troubleshoot for Linux related tasks improved. 
