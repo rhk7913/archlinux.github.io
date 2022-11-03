@@ -2,13 +2,9 @@
 
 This page outlines my process of installing Arch Linux on VMware Workstation. 
 
-I used the following websites for reference in this process:
-1. For general guidance: https://wiki.archlinux.org/title/Installation_guide
-2. Checking file hash: https://portal.nutanix.com/page/documents/kbs/details?targetId=kA07V000000LWYqSAO
-3. Creating and formating partitioning: https://itsfoss.com/install-arch-linux/
-4. Package and network manager: https://linuxhint.com/arch_linux_network_manager/
-
 # Pre-Installation
+
+Hashing reference: https://portal.nutanix.com/page/documents/kbs/details?targetId=kA07V000000LWYqSAO
 
 On the Arch Linux downloads page, https://archlinux.org/download/Download, download a HTTP direct download file (with a .iso extension) based on your country. 
 
@@ -116,9 +112,11 @@ timedatectl
 
 ## Partitioning
 
-**Partitioning refers to the dividing of the hard drives** - change this
+Reference: https://itsfoss.com/install-arch-linux/
 
-**For the EFI mode, two partitions must be made. The first one is the /dev/sda partition, which involves the hard drive of the computer currently being used (EFI system partition). The second one is the root partition, which is associated with the VM software.** 
+Partitioning is the process of dividing the hard drive into multiple selections. 
+
+**Note:** For the EFI mode, two partitions must be made. The first one is the /dev/sda partition, which involves the hard drive of the computer currently being used (EFI system partition). The second one is the root partition, which is associated with the VM software.
 
 The following command will display the available hard drives:
 
@@ -150,7 +148,6 @@ Last sector: default option
 ```
 
 The following command will save the newly created partitions and exit the partitioning platform:
-
 ```
 Command (m for help): w
 ```
@@ -160,7 +157,6 @@ Command (m for help): w
 After the partitions have been created, each partition must be formatted with the appropriate file system. 
 
 The following commands will format the partitions:
- 	
 ```
 mkfs.fat -F32 /dev/sda1
 mkfs.ext4 /dev/sda2
@@ -168,10 +164,11 @@ mkfs.ext4 /dev/sda2
   
 ## Mount the file system
 
-Mounting allows the .iso file to access its contents as if it was on a physical medium and then inserted into the optical drive. 
+Reference for explanation of mounting's purpose: https://man.archlinux.org/man/mount.8.en
+
+Mounting the .iso file allows access as if the file was on a physical device. 
 
 The following command will mount the .iso file:
-
 ```
 mount /dev/sda2 /mnt
 ```
@@ -185,7 +182,6 @@ I ended up also installing the man, sudo, vim, and zsh packages to use in the la
 **Note:** I chose to install vim over nano, since I wanted to gain familarity with editing in vim. However, if you have not edited with nano before, I would recommend using nano over using vim, since vim is slightly more complicated to use as a editor. 
 
 The following command will install the base, linux, linux-firmware, man, sudo, vim, and zsh packages:
-
 ```
 pacstrap /mnt base linux linux-firmware man sudo vim zsh
 ```
@@ -197,13 +193,11 @@ pacstrap /mnt base linux linux-firmware man sudo vim zsh
 A fstab file is used to define how disk partitions, block devices, or remote file systems should be mounted to the file system. 
 
 The following command will create the fstab file:
-
 ```
 genfstab -U /mnt >> /mnt/etc/fstab
 ```
     
 The following command will check if the fstab file has been created correctly:
-
 ```
 cat /mnt/etc/ftsab
 ```
@@ -213,26 +207,29 @@ cat /mnt/etc/ftsab
 Chroot changes the root directory for the current running process and their children. Running a program in this modified environment means that any files or commands outside of the environment cannot be accessed. In this instance of chroot, you would enter the mounted disk as root. 
 
 The following command will change root into the new system:
-
 ```
 arch-chroot /mnt
 ```
   
 **Time zone**
 
-The following command will set and change the time zone. I used America/Chicago as my time zone:
-
+The following command will set and change the time zone:
+```
+ln -sf /usr/share/zoneinfo/yourtimezone /etc/localtime
+hwclock --systohc
+```
+  
+For instance, I ran the following command to set America/Chicago as my time zone:
 ```
 ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
 hwclock --systohc
 ```
-  
+ 
 **Localization**
 
 Localization sets your system's language, numbering, date, and currency formats. 
 
 The following commands will allow you to edit the /etc/locale.gen file and uncomment your specific localization. Mine is the en_US.UTF-8 UTF-8 localization.
-
 ```
 vim /etc/locale.gen
 Press "Insert"
@@ -241,46 +238,51 @@ Press "ESC" and enter :wq to save the file and exit vim
 ```
 
 The following command will create the /etc/locale.conf file and set the LANG variable:
-
 ```
 echo 'LANG=en_US.UTF-8' >> /etc/locale.conf
 ```
 	
 The following command will check that the locale.conf file was created correctly:
-
 ```
 cat /etc/locale.conf
 ```
+
 **Note:** If you uncomment the wrong localization, you may run into issues opening your terminal when you get using your GUI. I accidentally uncommented the localization right above en_US.UTF-8 UTF-8 and I kept having trouble opening my terminal the first few times I used the GUI. I ended up having to edit /etc/locale.gen again and the terminal functioned correctly again!
 
 ## Network Configuration
 
-**"myarch" was my chosen name for my network host**
+Reference: https://linuxhint.com/arch_linux_network_manager/
 
-Begin by writing the selected host name to the /etc/hostname file:
+**Npte:** "myarch" was my chosen name for my network host
 
+The following command will write the selected host name to the /etc/hostname file:
 ```
 echo myarch > /etc/hostname
 ```
   
-Verify that the previous command worked: 
-
+The following command will verify that the previous command worked: 
 ```
 cat /etc/hostname
 ```
   
-You will then need to edit the /etc/hosts file
+You will then need to edit the /etc/hosts file.
  
-Use the following command to open the /etc/hosts file in vim: 
- 
+The following command will open the /etc/hosts file in vim: 
 ```
 vim /etc/hosts
 ```
 
 After entering vim, do the following: 
 
-To begin typing, press "insert" and add these three lines to the file: 
+Enter the following three lines to the file: 
 
+```
+127.0.0.1		localhost
+::1			localhost
+127.0.1.1		yourhostname
+```
+
+For instance, I inserted the following three lines to the file:
 ```
 127.0.0.1		localhost
 ::1			localhost
@@ -291,10 +293,9 @@ Press "ESC" and type :wq to save the changes to the /etc/hosts file and to exit 
 
 ## Setup network manager
 
-**Disclaimer:** Do not use the apt command to install any package or manager in Arch! pacman is the correct command for installation related commands in this distribution. I accidentally used apt in my first attempt to install the network manager and it would not install. I then realized it was the command used for Ubuntu, Debian, and other related distributions, not Arch.
+**Note:** Do not use the apt command to install any package or manager in Arch! pacman is the correct command for installation related commands in this distribution. I accidentally used apt in my first attempt to install the network manager and it would not install. I then realized it was the command used for Ubuntu, Debian, and other related distributions, not Arch.
 
 The following commands will install a network manager:
-
 ```
 pacman -Syu
 pacman -S wpa_supplicant wireless_tools networkmanager
@@ -303,31 +304,31 @@ pacman -S wpa_supplicant wireless_tools networkmanager
 ## Change the root password
 
 The following command will guide you through changing your root password. You will need the root account and password to log into the GUI for the first time.
-
 ```
 passwd
 ```
+
 ## Installing a desktop environment (DE)
 
 **Note:** The website that I used for installing a DE provided steps for installing the Gnome DE.
 
 The following commands will install the Gnome DE: 
-
 ```
 pacman -S xorg
 pacman -S gnome
 ```
-## Enable display manager and network manager
-The following commands will enable both the display manager and the network manager:
 
+## Enable display manager and network manager
+
+The following commands will enable both the display manager and the network manager:
 ```
 systemctl enable gdm.service
 systemctl enable NetworkManager.service
 systemctl enable wpa_supplicant.service	
 ```   
+
 ## Finish
-Exit out of chroot and shutdown the VM: 
-    
+Exit out of chroot and shutdown the VM:  
 ```
 exit 
 shutdown
@@ -354,6 +355,8 @@ useradd rhea
 ```
 
 ## Adding aliases
+
+Reference: https://www.tecmint.com/create-alias-in-linux/
 
 Aliases are customizable shortcuts that allow you to access your commonly used commands without having to always use the full form of the command. 
 
@@ -416,6 +419,7 @@ ssh -p 22 sysadmin@10.10.1.118
 ```
 
 ## Color-coding the terminal
+
 Reference: https://averagelinuxuser.com/linux-terminal-color/
 
 There are two ways to color-code bash: either on a user specific basis or on a system-wide level. It is recommended to only edit on a user specific basis.
@@ -438,6 +442,9 @@ ip addr
 ```
 
 ## Showing all users
+
+Reference: https://linuxhint.com/list_all_users_linux_system/
+
 The following command displays only the users:
 ```
 compgen -u
@@ -471,6 +478,8 @@ getent group wheel
 
 ## Installing a Arch User Repository (AUR) package
 
+Reference: https://linuxhint.com/aur_arch_linux/
+
 The following command will syncronize all your packages:
 ```
 pacman -Syu
@@ -481,6 +490,28 @@ The following command will install the base-devel package, a required tool in co
 pacman -S git base-devel
 ```
 
+The following command will install your selected AUR package:
+```
+git clone https://aur.archlinux.org/<pkgName>.git
+```
+
+For instance, I decided to install the yay AUR package, so I ran the following command:
+```
+git clone https://aur.archlinux.org/yay.git
+```
+
+You will need to change into the AUR package's directory
+
+The following command will change into the yay's directory:
+```
+cd yay/
+```
+
+The following command will start the running process of installing the AUR package:
+```
+makepkg
+sudo pacman -U yay.tar.xz
+```
 
 # Overall thoughts
 1. While installing Arch was a challenging task, I felt that it allowed me to greatly improve not only of understanding of the Linux command line interface, but also my understanding of how and what is required to create and maintain a Linux distribution.  
