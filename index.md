@@ -28,7 +28,7 @@ If the hashes match, the integrity of the file has been verified and you are abl
 
 # Installation
 
-**Note:** Always use the default option when running any commands, unless specified to use a different option!
+### Always use the default option when running any commands, unless specified to use a different option!
 
 ## Setup the virtual machine (VM) in VMware
 Open up VMware Workstation and locate "File" in the upper left hand corner. 
