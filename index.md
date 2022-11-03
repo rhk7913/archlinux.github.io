@@ -6,7 +6,7 @@ This page outlines my process of installing Arch Linux on VMware Workstation.
 
 Hashing reference: https://portal.nutanix.com/page/documents/kbs/details?targetId=kA07V000000LWYqSAO
 
-On the Arch Linux downloads page, https://archlinux.org/download/Download, download a HTTP direct download file (with a .iso extension) based on your country. 
+On the Arch Linux downloads page, https://archlinux.org/download, download a HTTP direct download file (with a .iso extension) based on your country. 
 
 I used this link from RIT: http://mirrors.rit.edu/archlinux/iso/2022.10.01/, where the file was named archlinux-2022.10.01-x86_64.iso.
 
