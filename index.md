@@ -1,14 +1,12 @@
 # Installing Arch Linux
 
-This page outlines my process of installing Arch Linux on VMware Workstation. 
-
 # Pre-Installation
 
-Hashing reference: https://portal.nutanix.com/page/documents/kbs/details?targetId=kA07V000000LWYqSAO
+Hashing reference: [https://portal.nutanix.com/page/document/kbs/details?targetId=kA07V000000LWYqSAO](url)
 
-On the Arch Linux downloads page, https://archlinux.org/download, download a HTTP direct download file (with a .iso extension) based on your country. 
+On the Arch Linux downloads page, [https://archlinux.org/download](url), download a HTTP direct download file (with a .iso extension) based on your country. 
 
-I used this link from RIT: http://mirrors.rit.edu/archlinux/iso/2022.10.01/, where the file was named archlinux-2022.10.01-x86_64.iso.
+I used this link from RIT: [http://mirrors.rit.edu/archlinux/iso/2022.10.01/](url), where the file was named archlinux-2022.10.01-x86_64.iso.
 
 After downloading your specified .iso file, use the following PowerShell commands to ensure the file has a SHA256 hash. 
 
@@ -61,7 +59,9 @@ bios.bootdelay=5000
 ```
 		
 **Notes:** 
+
 1. The first command changes the default BIOS firmware on my VM to UEFI firware. While it is possible to just keep the BIOS firmware, I found that a majority of my resources ended up using UEFI, so I decided to change the firmware to make my installation process smoother.
+
 2. The second command extended my time to choose the correct mode when booting up the VM, since I kept missing it the first few tmes I tried to select it. 
 
 You can now power on the VM! 
@@ -112,14 +112,13 @@ timedatectl
 
 ## Partitioning
 
-Reference: https://itsfoss.com/install-arch-linux/
+Reference: [https://itsfoss.com/install-arch-linux/](url)
 
-Partitioning is the process of dividing the hard drive into multiple selections. 
+Partitioning is the process of dividing the hard drive into multiple selections to be used for different purposes. 
 
-**Note:** For the EFI mode, two partitions must be made. The first one is the /dev/sda partition, which involves the hard drive of the computer currently being used (EFI system partition). The second one is the root partition, which is associated with the VM software.
+**Notes:** For the EFI mode, two partitions must be made. The first one is the /dev/sda partition, which involves the hard drive of the computer currently being used (EFI system partition). The second one is the root partition, which is associated with the VM software.
 
 The following command will display the available hard drives:
-
 ```
 fdisk -l
 ```
@@ -131,7 +130,7 @@ fdisk /dev/sda
 Command (m for help): n
 Partition type: p
 Partition number: 1
-First sector: default option (2048)
+First sector: default (may need to manually type out the number)
 Last sector: +500M
 Command (m for help): t
 Hex code or alias (type L to list all): EF
@@ -143,8 +142,8 @@ The following commands will create a root partition:
 Command (m for help): n
 Partition type: p
 Partition number: 2
-First sector: default option
-Last sector: default option
+First sector: default (may need to manually type out the number)
+Last sector: default (may need to manually type out the number)
 ```
 
 The following command will save the newly created partitions and exit the partitioning platform:
@@ -164,9 +163,9 @@ mkfs.ext4 /dev/sda2
   
 ## Mount the file system
 
-Reference for explanation of mounting's purpose: https://man.archlinux.org/man/mount.8.en
+Reference for explanation of mounting's purpose: [https://man.archlinux.org/man/mount.8.en](url)
 
-Mounting the .iso file allows access as if the file was on a physical device. 
+Mounting the .iso file allows access as if the file was on a physical device and placed into a optical drive. 
 
 The following command will mount the .iso file:
 ```
@@ -175,7 +174,7 @@ mount /dev/sda2 /mnt
 	
 ## Install essential packages
 
-The Arch Linux Installation guide states that the base, linux, and linux-firmware packages must be installed, as they are crucial for the proper running of the system.
+The Arch Linux Installation guide stated that the base, linux, and linux-firmware packages must be installed, as they are crucial for the proper running of the system.
 
 I ended up also installing the man, sudo, vim, and zsh packages to use in the later parts of the installation process. 
 
@@ -188,7 +187,7 @@ pacstrap /mnt base linux linux-firmware man sudo vim zsh
 	
 ## Configure the system 
 
-**Create a fstab file**
+### Create a fstab file
 
 A fstab file is used to define how disk partitions, block devices, or remote file systems should be mounted to the file system. 
 
@@ -202,16 +201,16 @@ The following command will check if the fstab file has been created correctly:
 cat /mnt/etc/ftsab
 ```
 	 
-**Change root (chroot)**
+## Change root (chroot)
 
-Chroot changes the root directory for the current running process and their children. Running a program in this modified environment means that any files or commands outside of the environment cannot be accessed. In this instance of chroot, you would enter the mounted disk as root. 
+Chroot changes the root directory for the current running process. In this instance of chroot, you would enter the mounted disk as root. 
 
-The following command will change root into the new system:
+The following command will chroot into the new system:
 ```
 arch-chroot /mnt
 ```
   
-**Time zone**
+### Time zone
 
 The following command will set and change the time zone:
 ```
@@ -225,11 +224,19 @@ ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
 hwclock --systohc
 ```
  
-**Localization**
+### Localization
 
 Localization sets your system's language, numbering, date, and currency formats. 
 
-The following commands will allow you to edit the /etc/locale.gen file and uncomment your specific localization. Mine is the en_US.UTF-8 UTF-8 localization.
+The following steps will allow you to edit the /etc/locale.gen file and uncomment your specific localization. Mine is the en_US.UTF-8 UTF-8 localization.
+```
+vim /etc/locale.gen
+Press "Insert"
+Remove the # in front of your localization
+Press "ESC" and enter :wq to save the file and exit vim
+```
+
+For instance, these were my personal steps to enable the en_US.UTF-8 UTF-8 localization:
 ```
 vim /etc/locale.gen
 Press "Insert"
@@ -242,18 +249,24 @@ The following command will create the /etc/locale.conf file and set the LANG var
 echo 'LANG=en_US.UTF-8' >> /etc/locale.conf
 ```
 	
-The following command will check that the locale.conf file was created correctly:
+The following command will check that the /etc/locale.conf file was created correctly:
 ```
 cat /etc/locale.conf
 ```
 
-**Note:** If you uncomment the wrong localization, you may run into issues opening your terminal when you get using your GUI. I accidentally uncommented the localization right above en_US.UTF-8 UTF-8 and I kept having trouble opening my terminal the first few times I used the GUI. I ended up having to edit /etc/locale.gen again and the terminal functioned correctly again!
+**Notes:** 
+
+If you uncomment the wrong localization, you may run into issues opening your terminal when you get using your GUI. 
+
+I accidentally uncommented the localization right above en_US.UTF-8 UTF-8 and I kept having trouble opening my terminal the first few times I used the GUI. 
+
+I ended up having to edit /etc/locale.gen again so that the terminal functioned correctly again.
 
 ## Network Configuration
 
-Reference: https://linuxhint.com/arch_linux_network_manager/
+Reference: [https://linuxhint.com/arch_linux_network_manager/](url)
 
-**Npte:** "myarch" was my chosen name for my network host
+**Note:** "myarch" was my chosen name for my network host
 
 The following command will write the selected host name to the /etc/hostname file:
 ```
@@ -274,7 +287,7 @@ vim /etc/hosts
 
 After entering vim, do the following: 
 
-Enter the following three lines to the file: 
+Enter the following three lines to the /etc/hosts file: 
 
 ```
 127.0.0.1		localhost
@@ -282,7 +295,7 @@ Enter the following three lines to the file:
 127.0.1.1		yourhostname
 ```
 
-For instance, I inserted the following three lines to the file:
+For instance, I inserted the following three lines to the /etc/hosts file:
 ```
 127.0.0.1		localhost
 ::1			localhost
@@ -303,14 +316,14 @@ pacman -S wpa_supplicant wireless_tools networkmanager
 
 ## Change the root password
 
-The following command will guide you through changing your root password. You will need the root account and password to log into the GUI for the first time.
+The following command will guide you through changing your root password. You will need the root account and password to log into the desktop environment for the first time.
 ```
 passwd
 ```
 
 ## Installing a desktop environment (DE)
 
-**Note:** The website that I used for installing a DE provided steps for installing the Gnome DE.
+**Note:** I ended up using the Gnone DE, since a majority of my references decided to install that particular DE. 
 
 The following commands will install the Gnome DE: 
 ```
@@ -319,6 +332,8 @@ pacman -S gnome
 ```
 
 ## Enable display manager and network manager
+
+Reference: [https://linuxhint.com/arch_linux_network_manager/](url)
 
 The following commands will enable both the display manager and the network manager:
 ```
@@ -356,7 +371,7 @@ useradd rhea
 
 ## Adding aliases
 
-Reference: https://www.tecmint.com/create-alias-in-linux/
+Reference: [https://www.tecmint.com/create-alias-in-linux/](url)
 
 Aliases are customizable shortcuts that allow you to access your commonly used commands without having to always use the full form of the command. 
 
@@ -373,23 +388,26 @@ The following syntax will create a temporary alias:
 alias name='commandname'
 ```
 
-For instance, creating an alias for the ls -la command would look like:
+For instance, creating an alias for a temporary ls -la command would look like:
 ```
 alias ll='ls -la'
 ```
 
-To create a permanent alias, you will need to enter the ~/.bashrc file and append your alias to the file, using the above syntax:
+To create a permanent alias, you will need to append your alias to the ~/.bashrc file.
+
+Enter the ~/.bashrc file and append a alias:
 ```
 vim ~/.bashrc
 alias name='commandname'
-Save and close the file
 ```
+For instance, creating an alias for a permanent ls -la command would look like:
+```
+alias ll='ls -la' inside of ~/.bashrc
+```
+Save and exit the ~/.bashrc file. You will need to close your current terminal and open another one for your permanent alias to appear.
 
-The following command will activate your permanent alias:
-```
-source ~/.bash_aliases
-```
- 
+Run the alias command again to see your permanent alias. 
+
 ## Installing a different shell
 
 **Note:** You should have the zsh shell already installed from the installation process, however it is a good idea to still check and see if the shell was properly installed.
@@ -401,17 +419,18 @@ pacman -S zsh
 
 ## Installing ssh and enter the class gateway
 
-In order to enter the class gateway, you will need to install the ssh package.
+In order to enter the class gateway, you will need to install the openssh package.
 
 The following command will install the ssh package:
 ```
-pacman -S ssh
+pacman -S openssh
 ```
 
 The following command will connect you to the class gateway:
 ```
 ssh -p yourportnumber yourusername@server-address
 ```
+**Note:** You will need to turn your OpenVPN instance to enter the class gateway
 
 For instance, I ran the following command to enter the class gateway:
 ```
@@ -420,7 +439,7 @@ ssh -p 22 sysadmin@10.10.1.118
 
 ## Color-coding the terminal
 
-Reference: https://averagelinuxuser.com/linux-terminal-color/
+Reference: [https://averagelinuxuser.com/linux-terminal-color/](url)
 
 There are two ways to color-code bash: either on a user specific basis or on a system-wide level. It is recommended to only edit on a user specific basis.
 
@@ -443,7 +462,7 @@ ip addr
 
 ## Showing all users
 
-Reference: https://linuxhint.com/list_all_users_linux_system/
+Reference: [https://linuxhint.com/list_all_users_linux_system/](url)
 
 The following command displays only the users:
 ```
@@ -456,7 +475,7 @@ cat /etc/passwd
 
 ## Showing sudoers
 
-Reference: https://linuxopsys.com/topics/add-user-to-sudoers-in-arch-linux
+Reference: [https://linuxopsys.com/topics/add-user-to-sudoers-in-arch-linux](url)
 
 **Note:** There is no group named sudo in Arch! The group containing the sudo users is called wheel.
 
@@ -478,7 +497,7 @@ getent group wheel
 
 ## Installing a Arch User Repository (AUR) package
 
-Reference: https://linuxhint.com/aur_arch_linux/
+Reference: [https://linuxhint.com/aur_arch_linux/](url)
 
 The following command will syncronize all your packages:
 ```
