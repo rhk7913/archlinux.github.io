@@ -495,23 +495,19 @@ The following command will install your selected AUR package:
 git clone https://aur.archlinux.org/<pkgName>.git
 ```
 
-For instance, I decided to install the yay AUR package, so I ran the following command:
+The following command will change into the AUR package's directory:
 ```
-git clone https://aur.archlinux.org/yay.git
+cd packagename
 ```
+**Note:** You will be unable to run makepkg as a root user, so you will need to run the following step as a non-root user to continue the installation process.
 
-You will need to change into the AUR package's directory
-
-The following command will change into the yay's directory:
-```
-cd yay/
-```
-
-The following command will start the running process of installing the AUR package:
+The following command will finish the installation 
+process of installing the AUR package:
 ```
 makepkg
-sudo pacman -U yay.tar.xz
+sudo pacman -U packagename.tar.xz
 ```
+Your AUR package should be installed!
 
 # Overall thoughts
 1. While installing Arch was a challenging task, I felt that it allowed me to greatly improve not only of understanding of the Linux command line interface, but also my understanding of how and what is required to create and maintain a Linux distribution.  
