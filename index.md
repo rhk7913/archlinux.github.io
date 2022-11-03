@@ -24,11 +24,11 @@ certutil -hashfile archlinux-2022.10.01-x86_64.iso SHA256
         
 After running the PowerShell commands, return to the Arch Linux downloads page and locate the checksums section under HTTP Direct Downloads. Compare the resulting hash from PowerShell to the checksum on the website. 
 
-If the hashes match, the integrity of the file has been verified and you are able to proceed to the installation process. If they don't match, the .iso file may be corrupted and you may need to install another .iso file to install. 
+If the hashes match, the integrity of the file has been verified and you are able to proceed to the installation process. If they don't match, the .iso file may be corrupted and you may need to select another .iso file to install. 
 
 # Installation
 
-***Always use the default option when running any commands, unless specified to use a different option!***
+**Note:** Always use the default option when running any commands, unless specified to use a different option!
 
 ## Setup the virtual machine (VM) in VMware
 Open up VMware Workstation and locate "File" in the upper left hand corner. 
