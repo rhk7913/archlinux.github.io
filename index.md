@@ -1,5 +1,5 @@
 # Installing Arch Linux
-Here is a link to my repo: https://github.com/rhk7913/archlinux.github.io
+Here is a link to my repo: [https://github.com/rhk7913/archlinux.github.io](url)
 
 # Pre-Installation
 
